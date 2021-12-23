@@ -8,14 +8,14 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>Document</title>
-    <style type="text/css">
-      #divMap {
-        height: 500px;
-        width: 800px;
-        border-radius: 15px;
-        margin: 100px auto;
-      }
+    <style>
+
+        #mapa{
+            height: 500px;
+            width: 100%
+        }
     </style>
+
 
 </head>
 
@@ -116,7 +116,9 @@
                 <label for="rest_lng">Longitud</label>
                 <input type="text" readonly class="form-control" id="rest_lng" placeholder="longitud" required>
             </div>
-                <div id="divMap"></div>
+            <div id="mapa">
+
+            </div>
 
             
             <div id="contenedor"></div>
@@ -126,170 +128,168 @@
                 <input type="file" class="form-control-file btn" id="rest_img" accept="image/*">
                 <img id="img_prev" src="#" height="200px" width="200px" alt="imagen del rest" />
             </div>
-            <button type="button" onclick="handleSubmit1()" class="btn btn-primary" id="btnEnviar">enviar</button>
+            <button type="button" onclick="handleSubmit1()" class="btn btn-primary" id="btnEnviar" href="https://innoprojectyucsr.com" >Enviar</button>
+            
         </form>
     </div>
-</body>
-    
-    
-<script type="text/javascript"  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDt4fFbWwqsTfdEsRLvyhBPjLT0zDnPL9k&callback=initMap&libraries=&v=weekly">
-</script>
-        <script type="text/javascript">
-      function initialize() {
-        // Configuración del mapa
-        var mapProp = {
-          zoom: 16,
-          mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
-        // Agregando el mapa al tag de id divMap
-        var map = new google.maps.Map(document.getElementById("divMap"), mapProp);
 
-        // Creando un marker en el mapa
-        var marker = new google.maps.Marker({
-          position: new google.maps.LatLng(6.244338, -75.573553),
-          map: map,
-          title: 'Hello World!',
-          draggable: true //que el marcador se pueda arrastrar
-        });
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDt4fFbWwqsTfdEsRLvyhBPjLT0zDnPL9k&callback=initMap">
+  </script>
 
-        // Registrando el evento drag, en este caso imprime
-        // en consola la latitud y longitud
-        google.maps.event.addListener(marker,'drag',function(event) {
-          console.log(event.latLng.lat());
-          document.getElementById("textLatitude").innerHTML = event.latLng.lat();
-          document.getElementById("textLongitude").innerHTML = event.latLng.lng();
-        });
-
-      }
-
-      // Inicializando el mapa cuando se carga la página
-      google.maps.event.addDomListener(window, 'load', initialize);
-    </script>
-    
-    
-    
-    
-    
 <script>
-    function readURL(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                $('#img_prev').show();
-                $('#img_prev').attr('src', e.target.result);
-            }
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-    $("#rest_img").change(function () {
-        readURL(this);
-    });
-    window.onload = () => {
-        $('#img_prev').hide();
-        let rest_lat = document.getElementById("rest_lat")
-        let rest_lng = document.getElementById("rest_lng")
-        let contenedor = document.getElementById("contenedor")
-        let rest_img = document.getElementById("rest_img")
-        let rest_rSocial = document.getElementById("rest_rSocial")
-        let rest_direccion = document.getElementById("rest_direccion")
-        let rest_refUbicacion = document.getElementById("rest_refUbicacion")
-        let rest_telefono = document.getElementById("rest_telefono")
-        let rest_info = document.getElementById("rest_info")
-        let rest_hCierre = document.getElementById("rest_hCierre")
-        let rest_hApertura = document.getElementById("rest_hApertura")
-        let rest_dAtencion = document.getElementById("rest_dAtencion")
-        let obtenerCoords = () => {
-            if (navigator.geolocation) {
-                navigator.geolocation.watchPosition((pos) => {
-                    // contenedor.innerHTML = `latitud ${pos.coords.latitude} longitud ${pos.coords.longitude}`
-                    rest_lat.value = `${pos.coords.latitude}`
-                    rest_lng.value = `${pos.coords.longitude}`
-                }, (error) => {
-                    switch (error.code) {
-                        case error.PERMISSION_DENIED:
-                            contenedor.innerHTML = "ubicacion denegada por el usuario"
-                            break;
-                    }
-                })
-            } else {
-                document.getElementById("contenedor").innerHTML = "no tienes gps"
-            }
+    var map;
+    function initMap() {
+        
+        var uluru = { 
+            lat: -16.51423, lng: -70.316524
         };
-        obtenerCoords();
-        handleSubmit1 = (e) => {
-            var Horarios = []
-            if (document.getElementById("Lunes").checked == true) {
-                Horarios.push(document.getElementById("Lunes").value)
-            }
-            if (document.getElementById("Martes").checked == true) {
-                Horarios.push(document.getElementById("Martes").value)
-            }
-            if (document.getElementById("Miercoles").checked == true) {
-                Horarios.push(document.getElementById("Miercoles").value)
-            }
-            if (document.getElementById("Jueves").checked == true) {
-                Horarios.push(document.getElementById("Jueves").value)
-            }
-            if (document.getElementById("Viernes").checked == true) {
-                Horarios.push(document.getElementById("Viernes").value)
-            }
-            if (document.getElementById("Sabado").checked == true) {
-                Horarios.push(document.getElementById("Sabado").value)
-            }
-            if (document.getElementById("Domingo").checked == true) {
-                Horarios.push(document.getElementById("Domingo").value)
-            }
-            if (rest_img.files[0] === undefined
-                || rest_rSocial.value == ""
-                || rest_direccion.value == ""
-                || rest_telefono.value == ""
-                || rest_lat.value == ""
-                || rest_lng.value == ""
-                || rest_refUbicacion.value == ""
-                || Horarios.toString() == []
-                || rest_hApertura.value == ""
-                || rest_hCierre.value == "") {
-                alert("falta informacion")
-                return
-            } else {
-                document.getElementById("btnEnviar").innerHTML = "enviando...";
-                document.getElementById("btnEnviar").disabled = true;
-                var formData = new FormData();
-                formData.append('imagen',
-                    rest_img.files[0],
-                    rest_img.files[0].name);
-                formData.append('rest_rSocial', rest_rSocial.value)
-                formData.append('rest_direccion', rest_direccion.value)
-                formData.append('rest_telefono', rest_telefono.value)
-                formData.append('rest_lat', rest_lat.value)
-                formData.append('rest_lng', rest_lng.value)
-                formData.append('rest_info', rest_info.value)
-                formData.append('rest_refUbicacion', rest_refUbicacion.value)
-                formData.append('rest_dAtencion', Horarios.toString())
-                formData.append('rest_hApertura', rest_hApertura.value)
-                formData.append('rest_hCierre', rest_hCierre.value)
-                formData.append('rest_avisos', 'prueba')
-                formData.append('rest_estado', 1)
-                formData.append('rest_verificacion', 0)
-                formData.append('usu_id', 1)
-                let headersRest = {
-                    method: 'POST',
-                    body: formData
-                };
-                fetch('https://gestrest.herokuapp.com/api/restaurante/crear', headersRest)
-                    .then(response => {
-                        console.log(response)
-                        return response.json();
-                    }).then(data => {
-                        console.log(data);
-                        alert("restaurante subido exitosamente")
-                        document.getElementById("btnEnviar").innerHTML = "enviar";
-                        document.getElementById("FormRest").reset();
-                        document.getElementById("btnEnviar").disabled = false;
-                    })
+        var map = new google.maps.Map(document.getElementById('mapa'), {
+            zoom: 4,
+            center: uluru
+        });
+        var marker = new google.maps.Marker({
+            position: uluru,
+            map: map,
+            draggable: true
+
+        });
+        console.log(uluru);
+
+        
+
+    }
+
+
+</script>
+
+
+
+    <script>
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#img_prev').show();
+                    $('#img_prev').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
             }
         }
-    }
-</script>
+        $("#rest_img").change(function () {
+            readURL(this);
+        });
+        window.onload = () => {
+            $('#img_prev').hide();
+            let rest_lat = document.getElementById("rest_lat")
+            let rest_lng = document.getElementById("rest_lng")
+            let contenedor = document.getElementById("contenedor")
+            let rest_img = document.getElementById("rest_img")
+            let rest_rSocial = document.getElementById("rest_rSocial")
+            let rest_direccion = document.getElementById("rest_direccion")
+            let rest_refUbicacion = document.getElementById("rest_refUbicacion")
+            let rest_telefono = document.getElementById("rest_telefono")
+            let rest_info = document.getElementById("rest_info")
+            let rest_hCierre = document.getElementById("rest_hCierre")
+            let rest_hApertura = document.getElementById("rest_hApertura")
+            let rest_dAtencion = document.getElementById("rest_dAtencion")
+            let obtenerCoords = () => {
+                if (navigator.geolocation) {
+                    navigator.geolocation.watchPosition((pos) => {
+                        // contenedor.innerHTML = `latitud ${pos.coords.latitude} longitud ${pos.coords.longitude}`
+                        rest_lat.value = `${pos.coords.latitude}`
+                        rest_lng.value = `${pos.coords.longitude}`
+                        console.log(rest_lat.value);
+                    }, (error) => {
+                        switch (error.code) {
+                            case error.PERMISSION_DENIED:
+                                contenedor.innerHTML = "ubicacion denegada por el usuario"
+                                break;
+                        }
+                    })
+                } else {
+                    document.getElementById("contenedor").innerHTML = "no tienes gps"
+                }
+            };
+            obtenerCoords();
+            handleSubmit1 = (e) => {
+                var Horarios = []
+                if (document.getElementById("Lunes").checked == true) {
+                    Horarios.push(document.getElementById("Lunes").value)
+                }
+                if (document.getElementById("Martes").checked == true) {
+                    Horarios.push(document.getElementById("Martes").value)
+                }
+                if (document.getElementById("Miercoles").checked == true) {
+                    Horarios.push(document.getElementById("Miercoles").value)
+                }
+                if (document.getElementById("Jueves").checked == true) {
+                    Horarios.push(document.getElementById("Jueves").value)
+                }
+                if (document.getElementById("Viernes").checked == true) {
+                    Horarios.push(document.getElementById("Viernes").value)
+                }
+                if (document.getElementById("Sabado").checked == true) {
+                    Horarios.push(document.getElementById("Sabado").value)
+                }
+                if (document.getElementById("Domingo").checked == true) {
+                    Horarios.push(document.getElementById("Domingo").value)
+                }
+                if (rest_img.files[0] === undefined
+                    || rest_rSocial.value == ""
+                    || rest_direccion.value == ""
+                    || rest_telefono.value == ""
+                    || rest_lat.value == ""
+                    || rest_lng.value == ""
+                    || rest_refUbicacion.value == ""
+                    || Horarios.toString() == []
+                    || rest_hApertura.value == ""
+                    || rest_hCierre.value == "") {
+                    alert("falta informacion")
+                    return
+                } else {
+                    document.getElementById("btnEnviar").innerHTML = "enviando...";
+                    document.getElementById("btnEnviar").disabled = true;
+                    var formData = new FormData();
+                    formData.append('imagen',
+                        rest_img.files[0],
+                        rest_img.files[0].name);
+                    formData.append('rest_rSocial', rest_rSocial.value)
+                    formData.append('rest_direccion', rest_direccion.value)
+                    formData.append('rest_telefono', rest_telefono.value)
+                    formData.append('rest_lat', rest_lat.value)
+                    formData.append('rest_lng', rest_lng.value)
+                    formData.append('rest_info', rest_info.value)
+                    formData.append('rest_refUbicacion', rest_refUbicacion.value)
+                    formData.append('rest_dAtencion', Horarios.toString())
+                    formData.append('rest_hApertura', rest_hApertura.value)
+                    formData.append('rest_hCierre', rest_hCierre.value)
+                    formData.append('rest_avisos', 'prueba')
+                    formData.append('rest_estado', 1)
+                    formData.append('rest_verificacion', 0)
+                    formData.append('usu_id', 1)
+                    let headersRest = {
+                        method: 'POST',
+                        body: formData
+                    };
+                    fetch('https://gestrest.herokuapp.com/api/restaurante/crear', headersRest)
+                        .then(response => {
+                            console.log(response)
+                            return response.json();
+                        }).then(data => {
+                            console.log(data);
+                            alert("restaurante subido exitosamente")
+                            document.getElementById("btnEnviar").innerHTML = "enviar";
+                            document.getElementById("FormRest").reset();
+                            document.getElementById("btnEnviar").disabled = false;
+                        })
+                }
+            }
+        }
+    </script>
+
+</body>    
+    
 
 </html>

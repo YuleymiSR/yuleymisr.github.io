@@ -108,6 +108,7 @@
                 <label for="rest_lng">Longitud</label>
                 <input type="text" readonly class="form-control" id="rest_lng" placeholder="longitud" required>
             </div>
+            
             <div id="contenedor"></div>
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
             <div class="form-group">
@@ -119,6 +120,46 @@
         </form>
     </div>
 </body>
+    
+    
+<script type="text/javascript"  src="https://maps.googleapis.com/maps/api/js?key=API_KEY&callback=initMap&libraries=&v=weekly">
+</script>
+        <script type="text/javascript">
+      function initialize() {
+        // Configuración del mapa
+        var mapProp = {
+          zoom: 16,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        // Agregando el mapa al tag de id divMap
+        var map = new google.maps.Map(document.getElementById("divMap"), mapProp);
+
+        // Creando un marker en el mapa
+        var marker = new google.maps.Marker({
+          position: new google.maps.LatLng(6.244338, -75.573553),
+          map: map,
+          title: 'Hello World!',
+          draggable: true //que el marcador se pueda arrastrar
+        });
+
+        // Registrando el evento drag, en este caso imprime
+        // en consola la latitud y longitud
+        google.maps.event.addListener(marker,'drag',function(event) {
+          console.log(event.latLng.lat());
+          document.getElementById("textLatitude").innerHTML = event.latLng.lat();
+          document.getElementById("textLongitude").innerHTML = event.latLng.lng();
+        });
+
+      }
+
+      // Inicializando el mapa cuando se carga la página
+      google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+    
+    
+    
+    
+    
 <script>
     function readURL(input) {
         if (input.files && input.files[0]) {
